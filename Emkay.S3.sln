@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emkay.S3", "Emkay.S3\Emkay.S3.csproj", "{90A69515-D43E-46BD-A400-5FC883157BF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emkay.S3.Tests", "Emkay.S3.Tests\Emkay.S3.Tests.csproj", "{EAE9798C-41DC-445F-AA5D-4FE3AEBBC113}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90A69515-D43E-46BD-A400-5FC883157BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90A69515-D43E-46BD-A400-5FC883157BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90A69515-D43E-46BD-A400-5FC883157BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90A69515-D43E-46BD-A400-5FC883157BF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE9798C-41DC-445F-AA5D-4FE3AEBBC113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE9798C-41DC-445F-AA5D-4FE3AEBBC113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE9798C-41DC-445F-AA5D-4FE3AEBBC113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE9798C-41DC-445F-AA5D-4FE3AEBBC113}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+	EndGlobalSection
+EndGlobal

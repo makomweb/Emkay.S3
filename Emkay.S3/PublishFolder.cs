@@ -18,8 +18,8 @@ namespace Emkay.S3
                 publicRead)
         {}
 
-        public PublishFolder(IS3Client client,
-            int timeoutMilliseconds,
+        internal PublishFolder(IS3Client client,
+            int timeoutMilliseconds = 1000 * 60 * 5, // 5 min default timeout,
             bool publicRead = true)
         {
             _client = client;

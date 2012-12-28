@@ -16,8 +16,8 @@ namespace Emkay.S3.Tests
         [SetUp]
         public void SetUp()
         {
-            _publishFolder = new PublishFolder(//new Mock<IS3Client>().Object,
-                                               Key, Secret)
+            _publishFolder = new PublishFolder(new Mock<IS3Client>().Object)
+                                               //Key, Secret)
                                                  {
                                                      SourceFolder = SourceFolder,
                                                      Bucket = Bucket,

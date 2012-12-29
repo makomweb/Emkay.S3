@@ -7,21 +7,27 @@ namespace Emkay.S3
 {
     public class PublishFolder : BuildTask, IDisposable
     {
+        private ITaskLogger _logger;
+
         private IS3Client _client;
 
         public PublishFolder(string key,
             string secret,
             int timeoutMilliseconds = 1000 * 60 * 5, // 5 min default timeout
-            bool publicRead = true) :
+            bool publicRead = true,
+            ITaskLogger logger = null) :
                 this(new S3Client(key, secret),
                 timeoutMilliseconds,
-                publicRead)
+                publicRead,
+                logger)
         {}
 
         internal PublishFolder(IS3Client client,
             int timeoutMilliseconds = 1000 * 60 * 5, // 5 min default timeout,
-            bool publicRead = true)
+            bool publicRead = true,
+            ITaskLogger logger = null)
         {
+            _logger = logger;
             _client = client;
             TimeoutMilliseconds = timeoutMilliseconds;
             PublicRead = publicRead;
@@ -40,16 +46,34 @@ namespace Emkay.S3
 
         public bool PublicRead { get; set; }
 
+        public ITaskLogger Logger
+        {
+            get { return _logger ?? (_logger = new MsBuildTaskLogger(Log)); }
+            set { _logger = value; }
+        }
+
         public override bool Execute()
         {
+            Logger.LogMessage(MessageImportance.Normal,
+                           string.Format("Publishing folder {0}", SourceFolder));
+
+            Logger.LogMessage(MessageImportance.Normal,
+                           string.Format("to S3 bucket {0}", SourceFolder));
+
+            if (!string.IsNullOrEmpty(DestinationFolder))
+                Logger.LogMessage(MessageImportance.Normal,
+                               string.Format("destination folder {0}", DestinationFolder));
+
             try
             {
                 _client.EnsureBucketExists(Bucket);
                 Publish(_client, SourceFolder, Bucket, DestinationFolder, PublicRead, TimeoutMilliseconds);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.LogMessage(MessageImportance.High,
+                               string.Format("Publishing folder has failed because of {0}", ex.Message));
                 return false;
             }
         }

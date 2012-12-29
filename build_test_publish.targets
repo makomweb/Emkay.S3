@@ -13,7 +13,7 @@
   <Import Project=".\Build\MSBuild.Community.Tasks.Targets"/>
   
   <ItemGroup>
-    <Solution Include=".\Wunderlist.sln">
+    <Solution Include=".\Emkay.S3.sln">
       <Properties>$(SolutionProperties)</Properties>
     </Solution>
   </ItemGroup>

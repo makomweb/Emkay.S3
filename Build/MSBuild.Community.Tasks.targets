@@ -3,7 +3,7 @@
   <!-- $Id$ -->
 
   <PropertyGroup>
-    <MSBuildCommunityTasksPath Condition="'$(MSBuildCommunityTasksPath)' == ''">$(MSBuildExtensionsPath)\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
+    <MSBuildCommunityTasksPath Condition="'$(MSBuildCommunityTasksPath)' == ''">$(MSBuildStartupDirectory)\Build</MSBuildCommunityTasksPath>
     <MSBuildCommunityTasksLib>$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll</MSBuildCommunityTasksLib>
   </PropertyGroup>
 

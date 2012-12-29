@@ -16,7 +16,6 @@ TestResults
 # Build results
 [Dd]ebug/
 [Rr]elease/
-x64/
 *_i.c
 *_p.c
 *.ilk
@@ -32,7 +31,6 @@ x64/
 *.tli
 *.tlh
 *.tmp
-*.log
 *.vspscc
 *.vssscc
 .builds
@@ -47,7 +45,6 @@ ipch/
 # Visual Studio profiler
 *.psess
 *.vsp
-*.vspx
 
 # Guidance Automation Toolkit
 *.gpState
@@ -59,7 +56,7 @@ _ReSharper*
 *.ncrunch*
 .*crunch*.local.xml
 
-# Installshield output folder 
+# Installshield output folder
 [Ee]xpress
 
 # DocProject is a documentation generator add-in
@@ -78,19 +75,10 @@ publish
 # Publish Web Output
 *.Publish.xml
 
-# NuGet Packages Directory
-packages
-
-# Windows Azure Build Output
-csx
-*.build.csdef
-
-# Windows Store app package directory
-AppPackages/
-
 # Others
 [Bb]in
 [Oo]bj
+[Bb]inaries
 sql
 TestResults
 [Tt]est[Rr]esult*

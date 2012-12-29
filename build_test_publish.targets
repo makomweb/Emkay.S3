@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Binaries>.\Binaries\</Binaries>
+    <Configuration>Release</Configuration>
+    <SolutionProperties>
+      OutDir=..\$(Binaries);
+      Platform=Any CPU;
+      Configuration=$(Configuration)
+    </SolutionProperties>
+  </PropertyGroup>
+
+  <Import Project=".\Build\MSBuild.Community.Tasks.Targets"/>
+  
+  <ItemGroup>
+    <Solution Include=".\Wunderlist.sln">
+      <Properties>$(SolutionProperties)</Properties>
+    </Solution>
+  </ItemGroup>
+  
+  <Target Name="clean">
+	  <Message Text="Cleaning output directories ..." />
+	  <RemoveDir Directories="$(Binaries)" />
+	  <MakeDir Directories = "$(Binaries)" Condition = "!Exists('$(Binaries)')" />
+  </Target>
+  
+  <Target Name="update_version">
+    <Message Text="Updating version information to $(major).$(minor).$(build).$(revision) ($(hash))" />
+
+    <FileUpdate Files="$(SolutionDir)GlobalAssemblyInfo.cs"
+                Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)"
+                ReplacementText="$(major).$(minor).$(build).$(revision)" />
+
+    <FileUpdate Files="$(SolutionDir)GlobalAssemblyInfo.cs"
+                Regex="AssemblyInformationalVersion\(\&quot;(\w+)\&quot;\)]"
+                ReplacementText="AssemblyInformationalVersion(&quot;$(hash)&quot;)]" />
+  </Target>
+  
+  <Target Name="build">
+    <Message Text="Building solution ..." />
+    <MSBuild Projects="@(Solution)"/>
+  </Target>
+
+  <Target Name="test">
+    <Message Text="Running tests ..." />
+    <CreateItem Include="$(Binaries)*.Tests.dll">
+      <Output TaskParameter="Include" ItemName="TestAssembly"/>
+    </CreateItem>
+    <Message Text="Running tests on @(TestAssembly) ..." />
+    <NUnit ToolPath=".\Tools\NUnit" DisableShadowCopy="true" Assemblies="@(TestAssembly)" />
+  </Target>
+  
+</Project>

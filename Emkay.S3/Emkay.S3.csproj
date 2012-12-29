@@ -51,6 +51,9 @@
     <Compile Include="S3Client.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Emkay.S3.Tasks.targets">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

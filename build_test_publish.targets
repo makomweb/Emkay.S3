@@ -49,5 +49,10 @@
     <Message Text="Running tests on @(TestAssembly) ..." />
     <NUnit ToolPath=".\Tools\NUnit" DisableShadowCopy="true" Assemblies="@(TestAssembly)" />
   </Target>
+
+  <Target Name="package">
+    <Message Text="Running nuget ..." />
+      <Exec Command=".\Tools\NuGet\NuGet.exe pack .\Emkay.S3\Emkay.S3.csproj -Prop Configuration=Release"/>
+  </Target>
   
 </Project>

@@ -19,8 +19,8 @@ namespace Emkay.S3.Tests
         [SetUp]
         public void SetUp()
         {
-            _publish = new PublishFiles(//new Mock<IS3Client>().Object, 300000, true, new Mock<ITaskLogger>().Object)
-                                        Key, Secret, 300000, true, new Mock<ITaskLogger>().Object)
+            _publish = new PublishFiles(new Mock<IS3Client>().Object, 300000, true, new Mock<ITaskLogger>().Object)
+                                        //Key, Secret, 300000, true, new Mock<ITaskLogger>().Object)
                                         {
                                             SourceFiles = EnumerateFiles(SourceFolder),
                                             Bucket = Bucket,

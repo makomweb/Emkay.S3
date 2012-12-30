@@ -4,4 +4,5 @@
     <EmkayS3ClassLibrary>.\Emkay.S3.dll</EmkayS3ClassLibrary>
   </PropertyGroup>
   <UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="PublishFolder" />
+  <UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="PublishFiles" />
 </Project>

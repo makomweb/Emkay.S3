@@ -1,0 +1,1 @@
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe build_test_publish.targets /t:build /p:Configuration=Release

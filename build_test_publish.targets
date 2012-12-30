@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
+    <Binaries>.\Binaries\</Binaries>
     <SolutionProperties>
+      OutDir=..\$(Binaries);
       Platform=Any CPU;
       Configuration=$(Configuration)
     </SolutionProperties>
@@ -48,8 +50,10 @@
   </Target>
 
   <Target Name="package">
+    <Message Text="Building project" />
+    <MSBuild Projects=".\Emkay.S3\Emkay.S3.csproj"/>
     <Message Text="Running nuget ..." />
-      <Exec Command=".\Tools\NuGet\NuGet.exe pack .\Emkay.S3\Emkay.S3.csproj -Prop Configuration=Release"/>
+    <Exec Command=".\Tools\NuGet\NuGet.exe pack .\Emkay.S3\Emkay.S3.csproj -Prop Configuration=$(Configuration)"/>
   </Target>
   
 </Project>

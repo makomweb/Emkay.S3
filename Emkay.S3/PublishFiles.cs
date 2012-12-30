@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Build.Framework;
 
@@ -17,7 +18,7 @@ namespace Emkay.S3
         }
 
         [Required]
-        public string[] Files { get; set; }
+        public string[] SourceFiles { get; set; }
 
         [Required]
         public string DestinationFolder { get; set; }
@@ -25,7 +26,7 @@ namespace Emkay.S3
         public override bool Execute()
         {
             Logger.LogMessage(MessageImportance.Normal,
-                              string.Format("Publishing folder {0}", SourceFolder));
+                              string.Format("Publishing {0} files", SourceFiles.Length));
 
             Logger.LogMessage(MessageImportance.Normal,
                               string.Format("to S3 bucket {0}", Bucket));
@@ -37,7 +38,7 @@ namespace Emkay.S3
             try
             {
                 Client.EnsureBucketExists(Bucket);
-                Publish(Client, SourceFolder, Bucket, DestinationFolder, PublicRead, TimeoutMilliseconds);
+                Publish(Client, SourceFiles, Bucket, DestinationFolder, PublicRead, TimeoutMilliseconds);
                 return true;
             }
             catch (Exception ex)
@@ -49,23 +50,16 @@ namespace Emkay.S3
         }
 
         private static void Publish(IS3Client client,
-                                    string sourceFolder,
+                                    IEnumerable<string> sourceFiles,
                                     string bucket,
                                     string destinationFolder,
                                     bool publicRead,
                                     int timeoutMilliseconds)
         {
-            var dirInfo = new DirectoryInfo(sourceFolder);
-            var files = dirInfo.GetFiles();
-            foreach (var f in files)
+            foreach (var f in sourceFiles)
             {
-                client.PutFile(bucket, CreateRelativePath(destinationFolder, f.Name), f.FullName, publicRead, timeoutMilliseconds);
-            }
-
-            var dirs = dirInfo.GetDirectories();
-            foreach (var d in dirs)
-            {
-                Publish(client, d.FullName, bucket, CreateRelativePath(destinationFolder, d.Name), publicRead, timeoutMilliseconds);
+                var info = new FileInfo(f);
+                client.PutFile(bucket, CreateRelativePath(destinationFolder, info.Name), info.FullName, publicRead, timeoutMilliseconds);
             }
         }
     }

@@ -6,7 +6,7 @@ namespace Emkay.S3.Tests
     [TestFixture]
     public class PublishFolderTests
     {
-        private PublishFolder _publishFolder;
+        private PublishFolder _publish;
         private const string Key = ""; // TODO edit your AWS S3 key here
         private const string Secret = ""; // TODO edit your AWS S3 secret here
         private const string SourceFolder = "."; // TODO edit your local folder here
@@ -16,8 +16,8 @@ namespace Emkay.S3.Tests
         [SetUp]
         public void SetUp()
         {
-            _publishFolder = new PublishFolder(new Mock<IS3Client>().Object, 300000, true, new Mock<ITaskLogger>().Object)
-                                               //Key, Secret)
+            _publish = new PublishFolder(new Mock<IS3Client>().Object, 300000, true, new Mock<ITaskLogger>().Object)
+                                        //Key, Secret, 300000, true, new Mock<ITaskLogger>().Object)
                                                  {
                                                      SourceFolder = SourceFolder,
                                                      Bucket = Bucket,
@@ -25,10 +25,16 @@ namespace Emkay.S3.Tests
                                                  };
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            _publish.Dispose();
+        }
+
         [Test]
         public void Execute_should_succeed()
         {
-            Assert.IsTrue(_publishFolder.Execute());
+            Assert.IsTrue(_publish.Execute());
         }
     }
 }

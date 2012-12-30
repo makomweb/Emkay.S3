@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-[assembly: AssemblyCompany("none")]
+[assembly: AssemblyCompany("Martin Komischke")]
 [assembly: AssemblyProduct("Emkay.S3")]
 [assembly: AssemblyCopyright("Copyright (c) 2012")]
 [assembly: AssemblyVersion("2.0.0.0")]

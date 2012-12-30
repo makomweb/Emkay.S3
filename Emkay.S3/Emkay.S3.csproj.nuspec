@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <id>Emkay.S3</id>
+    <version>0.9.0.1</version>
+    <authors>Martin Komischke</authors>
+    <owners>Martin Komischke</owners>
     <licenseUrl>http://opensource.org/licenses/mit-license.php</licenseUrl>
     <projectUrl>https://github.com/makomweb/Emkay.S3</projectUrl>
-    <iconUrl></iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This package contains MSBuild tasks for publishing a local folder including its subdirectories into a S3 bucket as well as publishing files to a destination folder.</description>
     <releaseNotes></releaseNotes>
@@ -17,4 +16,8 @@
       <dependency id="AWSSDK" version="1.5.10" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="bin\Release\Emkay.S3.Tasks.targets" target="lib" /> 
+    <file src="bin\Release\Emkay.S3.dll" target="lib\NET40" /> 
+  </files>
 </package>

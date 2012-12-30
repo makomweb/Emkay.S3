@@ -33,6 +33,10 @@
     <FileUpdate Files="$(SolutionDir)GlobalAssemblyInfo.cs"
                 Regex="AssemblyInformationalVersion\(\&quot;(\w+)\&quot;\)]"
                 ReplacementText="AssemblyInformationalVersion(&quot;$(hash)&quot;)]" />
+
+    <FileUpdate Files=".\Emkay.S3\Emkay.S3.csproj.nuspec"
+                Regex="&lt;version&gt;(.*)&lt;/version&gt;"
+                ReplacementText="&lt;version&gt;$(major).$(minor).$(build).$(revision)&lt;/version&gt;" />
   </Target>
   
   <Target Name="build">

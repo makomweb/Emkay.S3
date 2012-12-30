@@ -49,11 +49,14 @@
     <NUnit ToolPath=".\Tools\NUnit" DisableShadowCopy="true" Assemblies="@(TestAssembly)" />
   </Target>
 
-  <Target Name="package">
+  <Target Name="publish">
+    <Message Text="Cleaning old nuget artefacts"/>
+    <Exec Command="del *.nupkg"/>
     <Message Text="Building project" />
     <MSBuild Projects=".\Emkay.S3\Emkay.S3.csproj"/>
     <Message Text="Running nuget ..." />
     <Exec Command=".\Tools\NuGet\NuGet.exe pack .\Emkay.S3\Emkay.S3.csproj -Prop Configuration=$(Configuration)"/>
+    <Exec Command=".\Tools\NuGet\NuGet.exe push Emkay*.nupkg $(nuget_api_key)"/>
   </Target>
   
 </Project>

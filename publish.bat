@@ -1,0 +1,1 @@
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe build_test_publish.targets /t:publish /p:Configuration=Release;nuget_api_key=<YOUR API KEY HERE>

@@ -17,6 +17,7 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="README.md" target="lib" />
     <file src="bin\Release\Emkay.S3.Tasks.targets" target="lib" /> 
     <file src="bin\Release\Emkay.S3.dll" target="lib\NET40" /> 
   </files>

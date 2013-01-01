@@ -7,27 +7,13 @@ namespace Emkay.S3
     public abstract class PublishBase : Task, IDisposable
     {
         private ITaskLogger _logger;
+        private IS3Client _client;
 
-        protected IS3Client Client;
-
-        protected PublishBase(string key,
-                              string secret,
-                              int timeoutMilliseconds = 1000 * 60 * 5, // 5 min default timeout
-                              bool publicRead = true,
-                              ITaskLogger logger = null) :
-                                  this(new S3Client(key, secret),
-                                       timeoutMilliseconds,
-                                       publicRead,
-                                       logger)
-        {}
-
-        internal PublishBase(IS3Client client,
-                             int timeoutMilliseconds = 1000 * 60 * 5, // 5 min default timeout,
+        protected PublishBase(int timeoutMilliseconds = 1000 * 60 * 5, // 5 min default timeout,
                              bool publicRead = true,
                              ITaskLogger logger = null)
         {
             _logger = logger;
-            Client = client;
             TimeoutMilliseconds = timeoutMilliseconds;
             PublicRead = publicRead;
         }
@@ -39,11 +25,23 @@ namespace Emkay.S3
         }
 
         [Required]
+        public string Key { get; set; }
+
+        [Required]
+        public string Secret { get; set; }
+
+        [Required]
         public string Bucket { get; set; }
 
         public int TimeoutMilliseconds { get; set; }
 
         public bool PublicRead { get; set; }
+
+        public IS3Client Client
+        {
+            get { return _client ?? (_client = new S3Client(Key, Secret)); }
+            set { _client = value; }
+        }
 
         protected static string CreateRelativePath(string folder, string name)
         {

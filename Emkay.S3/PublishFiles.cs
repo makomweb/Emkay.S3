@@ -7,13 +7,8 @@ namespace Emkay.S3
 {
     public class PublishFiles : PublishBase
     {
-        public PublishFiles(string key, string secret, int timeoutMilliseconds = 300000, bool publicRead = true, ITaskLogger logger = null)
-            : base(key, secret, timeoutMilliseconds, publicRead, logger)
-        {
-        }
-
-        public PublishFiles(IS3Client client, int timeoutMilliseconds = 300000, bool publicRead = true, ITaskLogger logger = null)
-            : base(client, timeoutMilliseconds, publicRead, logger)
+        public PublishFiles(int timeoutMilliseconds = 300000, bool publicRead = true, ITaskLogger logger = null)
+            : base(timeoutMilliseconds, publicRead, logger)
         {
         }
 

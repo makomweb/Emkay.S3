@@ -6,13 +6,8 @@ namespace Emkay.S3
 {
     public class PublishFolder : PublishBase
     {
-        public PublishFolder(string key, string secret, int timeoutMilliseconds = 300000, bool publicRead = true, ITaskLogger logger = null)
-            : base(key, secret, timeoutMilliseconds, publicRead, logger)
-        {
-        }
-
-        public PublishFolder(IS3Client client, int timeoutMilliseconds = 300000, bool publicRead = true, ITaskLogger logger = null)
-            : base(client, timeoutMilliseconds, publicRead, logger)
+        public PublishFolder(int timeoutMilliseconds = 300000, bool publicRead = true, ITaskLogger logger = null)
+            : base(timeoutMilliseconds, publicRead, logger)
         {
         }
 

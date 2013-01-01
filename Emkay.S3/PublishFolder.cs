@@ -46,7 +46,7 @@ namespace Emkay.S3
             }
         }
 
-        private static void Publish(IS3Client client,
+        private void Publish(IS3Client client,
             string sourceFolder,
             string bucket,
             string destinationFolder,
@@ -57,6 +57,7 @@ namespace Emkay.S3
             var files = dirInfo.GetFiles();
             foreach (var f in files)
             {
+                Logger.LogMessage(MessageImportance.Normal, string.Format("Copying file {0}", f.FullName));
                 client.PutFile(bucket, CreateRelativePath(destinationFolder, f.Name), f.FullName, publicRead, timeoutMilliseconds);
             }
 

@@ -62,7 +62,9 @@
     <Compile Include="S3Client.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Emkay.S3.csproj.nuspec" />
+    <None Include="Emkay.S3.csproj.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Emkay.S3.Tasks.targets">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

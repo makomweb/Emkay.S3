@@ -1,4 +1,6 @@
-﻿using Amazon;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
@@ -36,6 +38,24 @@ namespace Emkay.S3
                               };
 
             _client.DeleteBucket(request);
+        }
+
+        public string[] EnumerateBuckets()
+        {
+            var response = _client.ListBuckets();
+            return response.Buckets.Select(b => b.BucketName).ToArray();
+        }
+
+        public string[] EnumerateChildren(string bucket)
+        {
+            var request = new ListObjectsRequest
+                {
+                    BucketName = bucket
+                };
+
+            var response = _client.ListObjects(request);
+
+            return response.S3Objects.Select(o => o.Key).ToArray();
         }
 
         public void PutFile(string bucketName, string key, string file, bool publicRead, int timeoutMilliseconds)

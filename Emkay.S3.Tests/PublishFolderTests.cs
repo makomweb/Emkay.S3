@@ -11,11 +11,11 @@ namespace Emkay.S3.Tests
         [SetUp]
         public void SetUp()
         {
-            _publish = new PublishFolder(RequestTimoutMilliseconds, true, new Mock<ITaskLogger>().Object)
+            _publish = new PublishFolder(RequestTimoutMilliseconds, true, LoggerMock)
                                                  {
                                                      Key = Key,
                                                      Secret = Secret,
-                                                     Client = new Mock<IS3Client>().Object, // TODO comment this here for lazy instanciation
+                                                     Client = ClientMock, // TODO comment this here for lazy instanciation
                                                      SourceFolder = SourceFolder,
                                                      Bucket = Bucket,
                                                      DestinationFolder = DestinationFolder

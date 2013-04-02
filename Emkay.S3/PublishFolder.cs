@@ -7,7 +7,7 @@ namespace Emkay.S3
     public class PublishFolder : PublishBase
     {
         public PublishFolder() :
-            this(300000, true, null)
+            this(DefaultRequestTimeout, true, null)
         {}
 
         public PublishFolder(int timeoutMilliseconds, bool publicRead, ITaskLogger logger)

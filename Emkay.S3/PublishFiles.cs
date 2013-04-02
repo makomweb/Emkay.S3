@@ -48,11 +48,11 @@ namespace Emkay.S3
         }
 
         private void Publish(IS3Client client,
-                                    IEnumerable<string> sourceFiles,
-                                    string bucket,
-                                    string destinationFolder,
-                                    bool publicRead,
-                                    int timeoutMilliseconds)
+                            IEnumerable<string> sourceFiles,
+                            string bucket,
+                            string destinationFolder,
+                            bool publicRead,
+                            int timeoutMilliseconds)
         {
             foreach (var f in sourceFiles)
             {

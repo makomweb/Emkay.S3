@@ -4,19 +4,14 @@ using NUnit.Framework;
 namespace Emkay.S3.Tests
 {
     [TestFixture]
-    public class PublishFolderTests
+    public class PublishFolderTests : PublishTestsBase
     {
         private PublishFolder _publish;
-        private const string Key = ""; // TODO edit your AWS S3 key here
-        private const string Secret = ""; // TODO edit your AWS S3 secret here
-        private const string SourceFolder = "."; // TODO edit your local folder here
-        private const string Bucket = ""; // TODO edit your bucket name here
-        private const string DestinationFolder = ""; // TODO edit your destination folder here
 
         [SetUp]
         public void SetUp()
         {
-            _publish = new PublishFolder(300000, true, new Mock<ITaskLogger>().Object)
+            _publish = new PublishFolder(RequestTimoutMilliseconds, true, new Mock<ITaskLogger>().Object)
                                                  {
                                                      Key = Key,
                                                      Secret = Secret,

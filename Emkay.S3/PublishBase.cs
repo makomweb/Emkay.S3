@@ -48,7 +48,7 @@ namespace Emkay.S3
             var destinationFolder = folder ?? String.Empty;
 
             // Append a folder seperator if a folder has been specified without one.
-            if (!String.IsNullOrEmpty(destinationFolder) && !destinationFolder.EndsWith("/"))
+            if (!string.IsNullOrEmpty(destinationFolder) && !destinationFolder.EndsWith("/"))
             {
                 destinationFolder += "/";
             }

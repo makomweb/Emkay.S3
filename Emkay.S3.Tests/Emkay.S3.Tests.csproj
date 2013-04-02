@@ -54,7 +54,8 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DeleteFilesTests.cs" />
+    <Compile Include="DeleteBucketTests.cs" />
+    <Compile Include="DeleteChildrenTests.cs" />
     <Compile Include="EnumerateBucketsTests.cs" />
     <Compile Include="EnumerateChildrenTests.cs" />
     <Compile Include="PublishFilesTests.cs" />

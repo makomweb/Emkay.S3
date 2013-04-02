@@ -14,14 +14,14 @@ namespace Emkay.S3.Tests
         public void SetUp()
         {
             _publish = new PublishFiles(RequestTimoutMilliseconds, true, LoggerMock)
-                                        {
-                                            Key = Key,
-                                            Secret = Secret,
-                                            Client = ClientMock, // TODO comment this here for lazy instanciation
-                                            SourceFiles = EnumerateFiles(SourceFolder),
-                                            Bucket = Bucket,
-                                            DestinationFolder = DestinationFolder
-                                        };
+                        {
+                            Key = Key,
+                            Secret = Secret,
+                            Client = ClientMock, // TODO comment this here for lazy instanciation
+                            SourceFiles = EnumerateFiles(SourceFolder),
+                            Bucket = Bucket,
+                            DestinationFolder = DestinationFolder
+                        };
         }
 
         [TearDown]

@@ -11,11 +11,11 @@ namespace Emkay.S3.Tests
         public void SetUp()
         {
             _enumerate = new EnumerateBuckets(RequestTimoutMilliseconds, LoggerMock)
-                                {
-                                    Key = Key,
-                                    Secret = Secret,
-                                    Client = ClientMock, // TODO comment this here for lazy instanciation
-                                };
+                            {
+                                Key = Key,
+                                Secret = Secret,
+                                Client = ClientMock, // TODO comment this here for lazy instanciation
+                            };
         }
 
         [TearDown]

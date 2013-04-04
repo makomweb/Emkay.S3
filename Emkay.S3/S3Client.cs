@@ -53,9 +53,28 @@ namespace Emkay.S3
                     BucketName = bucket
                 };
 
-            var response = _client.ListObjects(request);
 
-            return response.S3Objects.Select(o => o.Key).ToArray();
+            var result = new List<string>();
+
+            do
+            {
+                var response = _client.ListObjects(request);
+
+                result.AddRange(response.S3Objects.Select(o => o.Key));
+
+                // Fetch the next page in case the response was truncated.
+                if (response.IsTruncated)
+                {
+                    request.Marker = response.NextMarker;
+                }
+                else
+                {
+                    request = null;
+                }
+
+            } while (request != null);
+
+            return result.ToArray();
         }
 
         public void PutFile(string bucketName, string key, string file, bool publicRead, int timeoutMilliseconds)

@@ -11,6 +11,8 @@ namespace Emkay.S3
 
         string[] EnumerateChildren(string bucket);
 
+        string[] EnumerateChildren(string bucket, string prefix);
+
         void PutFile(string bucketName, string key, string file, bool publicRead, int timeoutMilliseconds);
 
         void DeleteBucket(string bucketName);

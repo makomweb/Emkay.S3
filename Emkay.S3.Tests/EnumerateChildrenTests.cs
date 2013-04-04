@@ -7,6 +7,7 @@ namespace Emkay.S3.Tests
     {
         private EnumerateChildren _enumerate;
         protected const string Bucket = ""; // TODO edit your bucket name here
+        protected const string Prefix = ""; // TODO edit your prefix here
 
         [SetUp]
         public void SetUp()
@@ -17,6 +18,7 @@ namespace Emkay.S3.Tests
                                 Secret = Secret,
                                 Client = ClientMock, // TODO comment this here for lazy instanciation
                                 Bucket = Bucket
+                                Prefix = Prefix
                             };
         }
 

@@ -48,11 +48,18 @@ namespace Emkay.S3
 
         public string[] EnumerateChildren(string bucket)
         {
-            var request = new ListObjectsRequest
-                {
-                    BucketName = bucket
-                };
+            return EnumerateChildren(bucket, string.Empty);
+        }
 
+        public string[] EnumerateChildren(string bucket, string prefix)
+        {
+            var request = new ListObjectsRequest
+            {
+                BucketName = bucket
+            };
+
+            if (!string.IsNullOrEmpty(prefix))
+                request.Prefix = prefix;
 
             var result = new List<string>();
 

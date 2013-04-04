@@ -15,6 +15,8 @@ namespace Emkay.S3
 
         public string[] Children { get; private set; }
 
+        public string Prefix { get; set; }
+
         public override bool Execute()
         {
             Logger.LogMessage(MessageImportance.Normal,
@@ -35,7 +37,7 @@ namespace Emkay.S3
 
         private void Enumerate()
         {
-            Children = Client.EnumerateChildren(Bucket);
+            Children = Client.EnumerateChildren(Bucket, Prefix);
         }
     }
 }

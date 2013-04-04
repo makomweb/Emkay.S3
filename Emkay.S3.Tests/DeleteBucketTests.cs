@@ -6,31 +6,20 @@ namespace Emkay.S3.Tests
     public class DeleteBucketTests : S3TestsBase
     {
         private DeleteBucket _delete;
+        private const string BucketName = "TestDummyBucket";
 
         [SetUp]
         public void SetUp()
         {
-            using (var items = new EnumerateBuckets(RequestTimoutMilliseconds, LoggerMock)
-                                {
-                                    Key = Key,
-                                    Secret = Secret,
-                                    Client = ClientMock, // TODO comment this here for lazy instanciation
-                                })
-            {
-                Assert.IsTrue(items.Execute());
+            Client.EnsureBucketExists(BucketName);
 
-                _delete = new DeleteBucket(RequestTimoutMilliseconds, LoggerMock)
-                            {
-                                Key = Key,
-                                Secret = Secret,
-                                Client = ClientMock, // TODO comment this here for lazy instanciation
-                            };
-
-                if (items.Buckets != null && items.Buckets.Length > 0)
-                {
-                    _delete.Bucket = items.Buckets[0];
-                }
-            }
+            _delete = new DeleteBucket(RequestTimoutMilliseconds, LoggerMock)
+                        {
+                            Key = Key,
+                            Secret = Secret,
+                            Client = Client,
+                            Bucket = BucketName
+                        };
         }
 
         [TearDown]

@@ -16,8 +16,8 @@ namespace Emkay.S3.Tests
                             {
                                 Key = Key,
                                 Secret = Secret,
-                                Client = ClientMock, // TODO comment this here for lazy instanciation
-                                Bucket = Bucket
+                                Client = Client,
+                                Bucket = Bucket,
                                 Prefix = Prefix
                             };
         }

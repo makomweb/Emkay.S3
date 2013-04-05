@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Amazon;
 using Amazon.S3;
@@ -7,19 +8,40 @@ using Amazon.S3.Util;
 
 namespace Emkay.S3
 {
+    /// <summary>
+    /// Implementation of the S3 client interface.
+    /// </summary>
     public class S3Client : IS3Client
     {
-        private AmazonS3 _client;
+        private AmazonS3 _amazonS3;
+        private readonly bool _hasOwnership;
 
+        /// <summary>
+        /// Initialize an instance of this class.
+        /// </summary>
+        /// <param name="key">S3 key</param>
+        /// <param name="secret">S3 secret</param>
         public S3Client(string key, string secret) :
             this(AWSClientFactory.CreateAmazonS3Client(key, secret))
-        {}
-
-        public S3Client(AmazonS3 amazonS3Client)
         {
-            _client = amazonS3Client;
+            _hasOwnership = true;
         }
 
+        /// <summary>
+        /// Initialize an instance of this class.
+        /// </summary>
+        /// <param name="amazonS3">The Amazon S3 instance.</param>
+        /// <param name="takeOwnership">Flag which indicates if this instance takes care of disposing the Amazon S3 instance.</param>
+        public S3Client(AmazonS3 amazonS3, bool takeOwnership = false)
+        {
+            _amazonS3 = amazonS3;
+            _hasOwnership = takeOwnership;
+        }
+
+        /// <summary>
+        /// Create a bucket with the specified name.
+        /// </summary>
+        /// <param name="bucketName">The name of the bucket.</param>
         public void CreateBucket(string bucketName)
         {
             var request = new PutBucketRequest
@@ -27,9 +49,13 @@ namespace Emkay.S3
                                   BucketName = bucketName
                               };
 
-            _client.PutBucket(request);
+            _amazonS3.PutBucket(request);
         }
 
+        /// <summary>
+        /// Delete a bucket and its content.
+        /// </summary>
+        /// <param name="bucketName">The name of the bucket.</param>
         public void DeleteBucket(string bucketName)
         {
             var request = new DeleteBucketRequest
@@ -37,20 +63,40 @@ namespace Emkay.S3
                                   BucketName = bucketName
                               };
 
-            _client.DeleteBucket(request);
+            _amazonS3.DeleteBucket(request);
         }
 
+        /// <summary>
+        /// Enumerate all the buckets.
+        /// Note: AWS provides the list of buckets in a paged manner.
+        /// A call to this function iterates over all the pages and sums up
+        /// all the items.
+        /// </summary>
+        /// <returns>Array of bucket names</returns>
         public string[] EnumerateBuckets()
         {
-            var response = _client.ListBuckets();
+            var response = _amazonS3.ListBuckets();
             return response.Buckets.Select(b => b.BucketName).ToArray();
         }
 
+        /// <summary>
+        /// Enumerate all the children from a specified bucket.
+        /// The children are identified by their key string.
+        /// </summary>
+        /// <param name="bucket">The name of the bucket.</param>
+        /// <returns>Array of child keys.</returns>
         public string[] EnumerateChildren(string bucket)
         {
             return EnumerateChildren(bucket, string.Empty);
         }
 
+        /// <summary>
+        /// Enumerate all the children from a specified bucket which match the specified prefix.
+        /// This is commonly used for enumerating "subfolders".
+        /// </summary>
+        /// <param name="bucket">The name of the bucket.</param>
+        /// <param name="prefix">The desired prefix</param>
+        /// <returns>Array of child keys.</returns>
         public string[] EnumerateChildren(string bucket, string prefix)
         {
             var request = new ListObjectsRequest
@@ -65,7 +111,7 @@ namespace Emkay.S3
 
             do
             {
-                var response = _client.ListObjects(request);
+                var response = _amazonS3.ListObjects(request);
 
                 result.AddRange(response.S3Objects.Select(o => o.Key));
 
@@ -84,6 +130,15 @@ namespace Emkay.S3
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Store the content from a local file into a bucket.
+        /// The key is the path under which the file will be stored.
+        /// </summary>
+        /// <param name="bucketName">The name of the bucket.</param>
+        /// <param name="key">The key under which the file will be available afterwards.</param>
+        /// <param name="file">The path to the local file.</param>
+        /// <param name="publicRead">Flag which indicates if the file is publicly available or not.</param>
+        /// <param name="timeoutMilliseconds">The timeout in milliseconds within the upload must have happend.</param>
         public void PutFile(string bucketName, string key, string file, bool publicRead, int timeoutMilliseconds)
         {
             var request = new PutObjectRequest
@@ -95,9 +150,15 @@ namespace Emkay.S3
                                 Timeout = timeoutMilliseconds
                             };
 
-            _client.PutObject(request);
+            _amazonS3.PutObject(request);
         }
 
+        /// <summary>
+        /// Delete an object within a bucket.
+        /// The object is identified by its key.
+        /// </summary>
+        /// <param name="bucketName">The name of the bucket.</param>
+        /// <param name="key">The key of the object.</param>
         public void DeleteObject(string bucketName, string key)
         {
             var request = new DeleteObjectRequest
@@ -105,9 +166,15 @@ namespace Emkay.S3
                                   BucketName = bucketName, Key = key
                               };
 
-            _client.DeleteObject(request);
+            _amazonS3.DeleteObject(request);
         }
 
+        /// <summary>
+        /// Set access rights of an object.
+        /// </summary>
+        /// <param name="bucketName">The name of the bucket.</param>
+        /// <param name="key">The key of the object.</param>
+        /// <param name="acl">The desired access rights.</param>
         public void SetAcl(string bucketName, string key, S3CannedACL acl)
         {
             var request = new SetACLRequest
@@ -117,22 +184,29 @@ namespace Emkay.S3
                                   Key = key
                               };
 
-            _client.SetACL(request);
+            _amazonS3.SetACL(request);
         }
 
+        /// <summary>
+        /// Ensure the specified bucket exists.
+        /// </summary>
+        /// <param name="bucketName">The name of the bucket.</param>
         public void EnsureBucketExists(string bucketName)
         {
-            if (!AmazonS3Util.DoesS3BucketExist(bucketName, _client))
+            if (!AmazonS3Util.DoesS3BucketExist(bucketName, _amazonS3))
             {
                 CreateBucket(bucketName);
             }
         }
 
+        /// <summary>
+        /// Dispose the underlying Amazon S3 instance in case this instance has ownership.
+        /// </summary>
         public void Dispose()
         {
-            if (_client != null)
-                _client.Dispose();
-            _client = null;
+            if (_hasOwnership && _amazonS3 != null)
+                _amazonS3.Dispose();
+            _amazonS3 = null;
         }
     }
 }

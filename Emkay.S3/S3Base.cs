@@ -43,9 +43,9 @@ namespace Emkay.S3
 
         public void Dispose()
         {
-            if (null != Client)
-                Client.Dispose();
-            Client = null;
+            if (null != _client)
+                _client.Dispose();
+            _client = null;
         }
     }
 }

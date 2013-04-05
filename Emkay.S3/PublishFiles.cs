@@ -56,6 +56,9 @@ namespace Emkay.S3
         {
             foreach (var f in sourceFiles)
             {
+                if (string.IsNullOrEmpty(f))
+                    continue;
+
                 var info = new FileInfo(f);
                 Logger.LogMessage(MessageImportance.Normal, string.Format("Copying file {0}", info.FullName));
                 client.PutFile(bucket, CreateRelativePath(destinationFolder, info.Name), info.FullName, publicRead, timeoutMilliseconds);

@@ -15,8 +15,6 @@ namespace Emkay.S3.Tests
 
             _delete = new DeleteBucket(RequestTimoutMilliseconds, LoggerMock)
                         {
-                            Key = Key,
-                            Secret = Secret,
                             Client = Client,
                             Bucket = BucketName
                         };

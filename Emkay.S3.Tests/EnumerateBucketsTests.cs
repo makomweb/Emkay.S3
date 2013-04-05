@@ -12,8 +12,6 @@ namespace Emkay.S3.Tests
         {
             _enumerate = new EnumerateBuckets(RequestTimoutMilliseconds, LoggerMock)
                             {
-                                Key = Key,
-                                Secret = Secret,
                                 Client = Client
                             };
         }

@@ -13,8 +13,6 @@ namespace Emkay.S3.Tests
         {
             _publish = new PublishFolder(RequestTimoutMilliseconds, true, LoggerMock)
                         {
-                            Key = Key,
-                            Secret = Secret,
                             Client = Client,
                             SourceFolder = SourceFolder,
                             Bucket = Bucket,

@@ -14,8 +14,6 @@ namespace Emkay.S3.Tests
         {
             _enumerate = new EnumerateChildren(RequestTimoutMilliseconds, LoggerMock)
                             {
-                                Key = Key,
-                                Secret = Secret,
                                 Client = Client,
                                 Bucket = Bucket,
                                 Prefix = Prefix

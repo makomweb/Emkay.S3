@@ -15,8 +15,6 @@ namespace Emkay.S3.Tests
         {
             _publish = new PublishFiles(RequestTimoutMilliseconds, true, LoggerMock)
                         {
-                            Key = Key,
-                            Secret = Secret,
                             Client = Client,
                             SourceFiles = EnumerateFiles(SourceFolder),
                             Bucket = Bucket,

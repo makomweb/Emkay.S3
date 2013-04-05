@@ -6,11 +6,13 @@ namespace Emkay.S3
     public class EnumerateBuckets : S3Base
     {
         public EnumerateBuckets()
-            : this(new S3ClientFactory(), DefaultRequestTimeout, null)
+            : this(new S3ClientFactory())
         { }
 
         [Obsolete("Only for test purpose!")]
-        internal EnumerateBuckets(IS3ClientFactory s3ClientFactory, int timeoutMilliseconds, ITaskLogger logger)
+        internal EnumerateBuckets(IS3ClientFactory s3ClientFactory,
+            int timeoutMilliseconds = DefaultRequestTimeout,
+            ITaskLogger logger = null)
             : base(s3ClientFactory, timeoutMilliseconds, logger)
         { }
 

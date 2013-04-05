@@ -16,24 +16,21 @@ namespace Emkay.S3.Tests
             get { return _client ?? (_client = ClientFactory.Create(Key, Secret)); }
         }
 
-        class Foobar : IS3ClientFactory
+        class S3ClientFactoryMock : IS3ClientFactory
         {
             public IS3Client Create(string key, string secret)
             {
+#if false
+                return new S3Client(key, secret);
+#else
                 return new Mock<IS3Client>().Object;
+#endif
             }
         }
 
         protected IS3ClientFactory ClientFactory
         {
-            get
-            {
-#if false
-                return new S3ClientFactory();
-#else
-                return new Foobar();
-#endif
-            }
+            get { return new S3ClientFactoryMock(); }
         }
 
         protected ITaskLogger LoggerMock

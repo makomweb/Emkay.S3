@@ -40,12 +40,7 @@ namespace Emkay.S3
 
         public IS3Client Client
         {
-            get
-            {
-                var c = _s3ClientFactory.Create(Key, Secret);
-
-                return _client ?? (_client = c);
-            }
+            get { return _client ?? (_client = _s3ClientFactory.Create(Key, Secret)); }
         }
 
         public void Dispose()

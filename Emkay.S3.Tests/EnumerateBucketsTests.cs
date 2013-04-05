@@ -10,16 +10,15 @@ namespace Emkay.S3.Tests
         [SetUp]
         public void SetUp()
         {
-            _enumerate = new EnumerateBuckets(RequestTimoutMilliseconds, LoggerMock)
-                            {
-                                Client = Client
-                            };
+            _enumerate = new EnumerateBuckets(ClientFactory, RequestTimoutMilliseconds, LoggerMock);
         }
 
         [TearDown]
         public void TearDown()
         {
-            _enumerate.Dispose();
+            if (_enumerate != null)
+                _enumerate.Dispose();
+            _enumerate = null;
         }
 
         [Test]

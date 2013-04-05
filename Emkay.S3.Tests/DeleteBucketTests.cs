@@ -13,9 +13,8 @@ namespace Emkay.S3.Tests
         {
             Client.EnsureBucketExists(BucketName);
 
-            _delete = new DeleteBucket(RequestTimoutMilliseconds, LoggerMock)
+            _delete = new DeleteBucket(ClientFactory, RequestTimoutMilliseconds, LoggerMock)
                         {
-                            Client = Client,
                             Bucket = BucketName
                         };
         }
@@ -23,7 +22,9 @@ namespace Emkay.S3.Tests
         [TearDown]
         public void TearDown()
         {
-            _delete.Dispose();
+            if (_delete != null)
+                _delete.Dispose();
+            _delete = null;
         }
 
         [Test]

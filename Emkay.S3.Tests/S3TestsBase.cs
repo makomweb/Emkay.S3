@@ -4,8 +4,7 @@ namespace Emkay.S3.Tests
 {
     public abstract class S3TestsBase
     {
-        private IS3Client _clientS3;
-        private IS3Client _clientMock;
+        private IS3Client _client;
         private ITaskLogger _loggerMock;
 
         protected const string Key = ""; // TODO edit your AWS S3 key here
@@ -14,17 +13,27 @@ namespace Emkay.S3.Tests
 
         protected IS3Client Client
         {
-            get { return ClientMock; }  // TODO Change this for using a real respectively mocked S3 client instance!
+            get { return _client ?? (_client = ClientFactory.Create(Key, Secret)); }
         }
 
-        protected IS3Client ClientS3
+        class Foobar : IS3ClientFactory
         {
-            get { return _clientS3 ?? (_clientS3 = new S3Client(Key, Secret)); }
+            public IS3Client Create(string key, string secret)
+            {
+                return new Mock<IS3Client>().Object;
+            }
         }
 
-        protected IS3Client ClientMock
+        protected IS3ClientFactory ClientFactory
         {
-            get { return _clientMock ?? (_clientMock = new Mock<IS3Client>().Object); }
+            get
+            {
+#if false
+                return new S3ClientFactory();
+#else
+                return new Foobar();
+#endif
+            }
         }
 
         protected ITaskLogger LoggerMock

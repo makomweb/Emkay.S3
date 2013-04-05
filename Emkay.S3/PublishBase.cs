@@ -4,9 +4,16 @@ namespace Emkay.S3
 {
     public abstract class PublishBase : S3Base
     {
-        protected PublishBase(int timeoutMilliseconds = 1000 * 60 * 5, // 5 min default timeout,
-                             bool publicRead = true,
-                             ITaskLogger logger = null) : base(timeoutMilliseconds, logger)
+        protected PublishBase()
+            : this(new S3ClientFactory(), DefaultRequestTimeout)
+        { }
+
+        [Obsolete("Only for test purpose!")]
+        internal PublishBase(IS3ClientFactory s3ClientFactory,
+            int timeoutMilliseconds,
+            bool publicRead = true,
+            ITaskLogger logger = null)
+            : base(s3ClientFactory, timeoutMilliseconds, logger)
         {
             PublicRead = publicRead;
         }

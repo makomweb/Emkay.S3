@@ -7,12 +7,16 @@ namespace Emkay.S3
     public class PublishFolder : PublishBase
     {
         public PublishFolder() :
-            this(DefaultRequestTimeout, true, null)
-        {}
+            this(new S3ClientFactory())
+        { }
 
-        public PublishFolder(int timeoutMilliseconds, bool publicRead, ITaskLogger logger)
-            : base(timeoutMilliseconds, publicRead, logger)
-        {}
+        [Obsolete("Only for test purpose!")]
+        internal PublishFolder(IS3ClientFactory s3ClientFactory,
+            int timeoutMilliseconds = DefaultRequestTimeout,
+            bool publicRead = true,
+            ITaskLogger logger = null)
+            : base(s3ClientFactory, timeoutMilliseconds, publicRead, logger)
+        { }
 
         [Required]
         public string SourceFolder { get; set; }

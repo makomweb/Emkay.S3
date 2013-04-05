@@ -5,13 +5,14 @@ namespace Emkay.S3
 {
     public class EnumerateChildren : S3Base
     {
-        public EnumerateChildren() :
-            this(DefaultRequestTimeout, null)
-        {}
+        public EnumerateChildren()
+            : this(new S3ClientFactory(), DefaultRequestTimeout, null)
+        { }
 
-        public EnumerateChildren(int timeoutMilliseconds, ITaskLogger logger)
-            : base(timeoutMilliseconds, logger)
-        {}
+        [Obsolete("Only for test purpose!")]
+        internal EnumerateChildren(IS3ClientFactory s3ClientFactory, int timeoutMilliseconds, ITaskLogger logger)
+            : base(s3ClientFactory, timeoutMilliseconds, logger)
+        { }
 
         public string[] Children { get; private set; }
 

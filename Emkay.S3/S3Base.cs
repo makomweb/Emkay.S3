@@ -6,14 +6,17 @@ namespace Emkay.S3
 {
     public abstract class S3Base : Task, IDisposable
     {
+        private readonly IS3ClientFactory _s3ClientFactory;
         private ITaskLogger _logger;
         private IS3Client _client;
 
         public const int DefaultRequestTimeout = 300000; // 5 min default timeout
 
-        protected S3Base(int timeoutMilliseconds = DefaultRequestTimeout,
+        protected S3Base(IS3ClientFactory s3ClientFactory,
+                         int timeoutMilliseconds = DefaultRequestTimeout,
                          ITaskLogger logger = null)
         {
+            _s3ClientFactory = s3ClientFactory;
             _logger = logger;
             TimeoutMilliseconds = timeoutMilliseconds;
         }
@@ -37,8 +40,12 @@ namespace Emkay.S3
 
         public IS3Client Client
         {
-            get { return _client ?? (_client = new S3Client(Key, Secret)); }
-            set { _client = value; }
+            get
+            {
+                var c = _s3ClientFactory.Create(Key, Secret);
+
+                return _client ?? (_client = c);
+            }
         }
 
         public void Dispose()

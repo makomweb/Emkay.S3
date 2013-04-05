@@ -12,9 +12,8 @@ namespace Emkay.S3.Tests
         [SetUp]
         public void SetUp()
         {
-            _enumerate = new EnumerateChildren(RequestTimoutMilliseconds, LoggerMock)
+            _enumerate = new EnumerateChildren(ClientFactory, RequestTimoutMilliseconds, LoggerMock)
                             {
-                                Client = Client,
                                 Bucket = Bucket,
                                 Prefix = Prefix
                             };
@@ -23,7 +22,9 @@ namespace Emkay.S3.Tests
         [TearDown]
         public void TearDown()
         {
-            _enumerate.Dispose();
+            if (_enumerate != null)
+                _enumerate.Dispose();
+            _enumerate = null;
         }
 
         [Test]

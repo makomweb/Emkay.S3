@@ -13,9 +13,8 @@ namespace Emkay.S3.Tests
         [SetUp]
         public void SetUp()
         {
-            _publish = new PublishFiles(RequestTimoutMilliseconds, true, LoggerMock)
+            _publish = new PublishFiles(ClientFactory, RequestTimoutMilliseconds, true, LoggerMock)
                         {
-                            Client = Client,
                             SourceFiles = EnumerateFiles(SourceFolder),
                             Bucket = Bucket,
                             DestinationFolder = DestinationFolder
@@ -25,7 +24,9 @@ namespace Emkay.S3.Tests
         [TearDown]
         public void TearDown()
         {
-            _publish.Dispose();
+            if (_publish != null)
+                _publish.Dispose();
+            _publish = null;
         }
 
         [Test]

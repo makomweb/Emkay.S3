@@ -8,12 +8,16 @@ namespace Emkay.S3
     public class PublishFiles : PublishBase
     {
         public PublishFiles() :
-            this(DefaultRequestTimeout, true, null)
-        {}
+            this(new S3ClientFactory())
+        { }
 
-        public PublishFiles(int timeoutMilliseconds, bool publicRead, ITaskLogger logger)
-            : base(timeoutMilliseconds, publicRead, logger)
-        {}
+        [Obsolete("Only for test purpose!")]
+        internal PublishFiles(IS3ClientFactory s3ClientFactory,
+            int timeoutMilliseconds = DefaultRequestTimeout,
+            bool publicRead = true,
+            ITaskLogger logger = null)
+            : base(s3ClientFactory, timeoutMilliseconds, publicRead, logger)
+        { }
 
         [Required]
         public string[] SourceFiles { get; set; }

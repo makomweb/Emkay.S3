@@ -5,13 +5,14 @@ namespace Emkay.S3
 {
     public class EnumerateBuckets : S3Base
     {
-        public EnumerateBuckets() :
-            this(DefaultRequestTimeout, null)
-        {}
+        public EnumerateBuckets()
+            : this(new S3ClientFactory(), DefaultRequestTimeout, null)
+        { }
 
-        public EnumerateBuckets(int timeoutMilliseconds, ITaskLogger logger)
-            : base(timeoutMilliseconds, logger)
-        {}
+        [Obsolete("Only for test purpose!")]
+        internal EnumerateBuckets(IS3ClientFactory s3ClientFactory, int timeoutMilliseconds, ITaskLogger logger)
+            : base(s3ClientFactory, timeoutMilliseconds, logger)
+        { }
 
         public string[] Buckets { get; private set; }
 

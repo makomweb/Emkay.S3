@@ -5,13 +5,14 @@ namespace Emkay.S3
 {
     public class DeleteChildren : S3Base
     {
-        public DeleteChildren() :
-            this(DefaultRequestTimeout, null)
-        {}
+        public DeleteChildren()
+            : this(new S3ClientFactory(), DefaultRequestTimeout, null)
+        { }
 
-        public DeleteChildren(int timeoutMilliseconds, ITaskLogger logger)
-            : base(timeoutMilliseconds, logger)
-        {}
+        [Obsolete("Only for test purpose!")]
+        internal DeleteChildren(IS3ClientFactory s3ClientFactory, int timeoutMilliseconds, ITaskLogger logger)
+            : base(s3ClientFactory, timeoutMilliseconds, logger)
+        { }
 
         [Required]
         public string[] Children { private get; set; }

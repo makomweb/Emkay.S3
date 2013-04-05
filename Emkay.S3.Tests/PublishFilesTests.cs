@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using Moq;
 using NUnit.Framework;
 
 namespace Emkay.S3.Tests
@@ -24,6 +23,13 @@ namespace Emkay.S3.Tests
         [TearDown]
         public void TearDown()
         {
+            var removeBucket = new DeleteBucket(ClientFactory, RequestTimoutMilliseconds, LoggerMock)
+                                {
+                                    Bucket = Bucket
+                                };
+
+            Assert.IsTrue(removeBucket.Execute(), "Could not remove test bucket!");
+
             if (_publish != null)
                 _publish.Dispose();
             _publish = null;

@@ -18,24 +18,38 @@ namespace Emkay.S3.Tests
 
         class S3ClientFactoryMock : IS3ClientFactory
         {
+            private readonly string _key;
+            private readonly string _secret;
+
+            public S3ClientFactoryMock(string key, string secret)
+            {
+                _key = key;
+                _secret = secret;
+            }
+
             public IS3Client Create(string key, string secret)
             {
-#if false
-                return new S3Client(key, secret);
-#else
+                if (!string.IsNullOrEmpty(_key) && !string.IsNullOrEmpty(_secret))
+                    return new S3Client(_key, _secret);
                 return new Mock<IS3Client>().Object;
-#endif
             }
         }
 
         protected IS3ClientFactory ClientFactory
         {
-            get { return new S3ClientFactoryMock(); }
+            get { return new S3ClientFactoryMock(Key, Secret); }
         }
 
         protected ITaskLogger LoggerMock
         {
             get { return _loggerMock ?? (_loggerMock = new Mock<ITaskLogger>().Object); }
+        }
+
+        protected void TearDownClient()
+        {
+            if (_client != null)
+                _client.Dispose();
+            _client = null;
         }
     }
 }

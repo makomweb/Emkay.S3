@@ -6,7 +6,7 @@ namespace Emkay.S3.Tests
     public class DeleteBucketTests : S3TestsBase
     {
         private DeleteBucket _delete;
-        private const string BucketName = "TestDummyBucket";
+        private const string BucketName = "S3-66427BC0DE13";
 
         [SetUp]
         public void SetUp()

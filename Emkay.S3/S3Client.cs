@@ -22,10 +22,8 @@ namespace Emkay.S3
         /// <param name="key">S3 key</param>
         /// <param name="secret">S3 secret</param>
         public S3Client(string key, string secret) :
-            this(AWSClientFactory.CreateAmazonS3Client(key, secret))
-        {
-            _hasOwnership = true;
-        }
+            this(AWSClientFactory.CreateAmazonS3Client(key, secret), true)
+        { }
 
         /// <summary>
         /// Initialize an instance of this class.

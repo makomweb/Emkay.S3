@@ -31,6 +31,7 @@ namespace Emkay.S3.Tests
         public void Execute_should_succeed()
         {
             Assert.IsTrue(_enumerate.Execute());
+            Assert.IsNotNull(_enumerate.Children);
         }
     }
 }

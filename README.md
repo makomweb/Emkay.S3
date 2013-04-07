@@ -1,7 +1,8 @@
 Emkay.S3
 ========
 
-Emkay S3 folder publisher is an **MSBuild task** which can be used for publishing recursively the content of a folder to your S3 bucket.
+This package contains a small wrapper for Amazon S3. It provides possibility to upload files, upload the content of a folder inclusively subfolders, enumerate buckets, enumerate the content of a specific 'subfolder', delete buckets and delete files from specific subfolders
+All those are also available via MSBuild tasks which are also part of this package.
 
 ##Download
 
@@ -23,6 +24,7 @@ In order to use the tasks in your project, you need to import the Emkay.S3.Tasks
 	<UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="PublishFolder" />
 	<UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="PublishFiles" />
 
+Emkay S3 folder publisher is an **MSBuild task** which can be used for publishing recursively the content of a folder to your S3 bucket.
 After that you can publish the content of a source folder to S3 by using this statement inside an MSBuild target. By default the files will be public available.
 
     <Target Name="S3_upload" DependsOnTargets="Publish">

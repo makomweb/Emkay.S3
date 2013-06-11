@@ -151,24 +151,24 @@ namespace Emkay.S3
             _amazonS3.PutObject(request);
         }
 
-		/// <summary>
-		/// Download a file and save it to a specified location
-		/// </summary>
-		/// <param name="bucketName">The name of the bucket.</param>
-		/// <param name="key">The key of the file to download.</param>
-		/// <param name="file">The path for the file to be saved to.</param>
-		/// <param name="timeoutMilliseconds">The timeout in milliseconds.</param>
-		public void DownloadFile(string bucketName, string key, string file, int timeoutMilliseconds) 
-		{
-			var request = new GetObjectRequest
+        /// <summary>
+        /// Download a file and save it to a specified location
+        /// </summary>
+        /// <param name="bucketName">The name of the bucket.</param>
+        /// <param name="key">The key of the file to download.</param>
+        /// <param name="file">The path for the file to be saved to.</param>
+        /// <param name="timeoutMilliseconds">The timeout in milliseconds.</param>
+        public void DownloadFile(string bucketName, string key, string file, int timeoutMilliseconds) 
+        {
+	        var request = new GetObjectRequest
                             {
                                 BucketName = bucketName,
                                 Key = key,
                                 Timeout = timeoutMilliseconds
                             };
-			var response = _amazonS3.GetObject(request); //TODO: check response status
-			response.WriteResponseStreamToFile(file);
-		}
+	        var response = _amazonS3.GetObject(request); //TODO: check response status
+	        response.WriteResponseStreamToFile(file);
+        }
 
         /// <summary>
         /// Delete an object within a bucket.

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Amazon;
 using Amazon.S3;
@@ -147,6 +148,33 @@ namespace Emkay.S3
                                 Key = key,
                                 Timeout = timeoutMilliseconds
                             };
+
+            _amazonS3.PutObject(request);
+        }
+
+        /// <summary>
+        /// Store the content from a local file into a bucket.
+        /// The key is the path under which the file will be stored.
+        /// Use this overload to add custom headers 
+        /// </summary>
+        /// <param name="bucketName">The name of the bucket.</param>
+        /// <param name="key">The key under which the file will be available afterwards.</param>
+        /// <param name="file">The path to the local file.</param>
+        /// <param name="headers">The custom headers to be added to the file</param>
+        /// <param name="publicRead">Flag which indicates if the file is publicly available or not.</param>
+        /// <param name="timeoutMilliseconds">The timeout in milliseconds within the upload must have happend.</param>
+        public void PutFileWithHeaders(string bucketName, string key, string file, NameValueCollection headers, bool publicRead, int timeoutMilliseconds)
+        {
+            var request = new PutObjectRequest
+            {
+                CannedACL = publicRead ? S3CannedACL.PublicRead : S3CannedACL.Private,
+                FilePath = file,
+                BucketName = bucketName,
+                Key = key,
+                Timeout = timeoutMilliseconds
+            };
+
+            request.AddHeaders(headers);
 
             _amazonS3.PutObject(request);
         }

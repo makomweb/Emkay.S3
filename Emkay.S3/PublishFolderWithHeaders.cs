@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
@@ -27,24 +26,24 @@ namespace Emkay.S3
         public string DestinationFolder { get; set; }
 
         public override bool Execute()
-        {                       
+        {
             try
-            {                
+            {
                 Client.EnsureBucketExists(Bucket);
 
                 foreach (var sourceFolder in SourceFolders)
                 {
                     Logger.LogMessage(MessageImportance.Normal,
-                                   string.Format("Publishing folder {0}", sourceFolder.GetMetadata("Identity")));
+                        string.Format("Publishing folder {0}", sourceFolder.GetMetadata("Identity")));
 
                     Logger.LogMessage(MessageImportance.Normal,
-                                   string.Format("to S3 bucket {0}", Bucket));
+                        string.Format("to S3 bucket {0}", Bucket));
 
                     if (!string.IsNullOrEmpty(DestinationFolder))
                         Logger.LogMessage(MessageImportance.Normal,
-                                       string.Format("destination folder {0}", DestinationFolder));
+                            string.Format("destination folder {0}", DestinationFolder));
 
-                    Publish(Client, sourceFolder, Bucket, DestinationFolder, PublicRead, TimeoutMilliseconds);                                        
+                    Publish(Client, sourceFolder, Bucket, DestinationFolder, PublicRead, TimeoutMilliseconds);
                 }
 
                 return true;
@@ -55,6 +54,7 @@ namespace Emkay.S3
                     string.Format("Publishing folder has failed because of {0}", ex.Message));
                 return false;
             }
+
         }
 
         private void Publish(IS3Client client,
@@ -77,7 +77,7 @@ namespace Emkay.S3
             var dirs = dirInfo.GetDirectories();
             foreach (var d in dirs)
             {
-                Publish(client, new TaskItem(d.FullName), bucket, CreateRelativePath(destinationFolder, d.Name), publicRead, timeoutMilliseconds);
+                Publish(client, new TaskItem(d.FullName, sourceFolder.CloneCustomMetadata()), bucket, CreateRelativePath(destinationFolder, d.Name), publicRead, timeoutMilliseconds);
             }
         }
     }

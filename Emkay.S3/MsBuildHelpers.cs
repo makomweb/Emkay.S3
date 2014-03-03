@@ -1,46 +1,20 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Specialized;
 using Microsoft.Build.Framework;
 
 namespace Emkay.S3
 {
     public class MsBuildHelpers
     {
-        public static IEnumerable<string> GetWellDefinedItemMetadata()
-        {
-            return new List<string>
-            {
-                "FullPath",
-                "RootDir",
-                "Filename",
-                "Extension",
-                "RelativeDir",
-                "Directory",
-                "RecursiveDir",
-                "Identity",
-                "ModifiedTime",
-                "CreatedTime",
-                "AccessedTime"
-            };
-        }
-
-        public static NameValueCollection GetCustomItemMetadata(ITaskItem taskItem)
+        public static NameValueCollection GetCustomItemMetadata(ITaskItem taskItem) 
         {                     
-            var itemMetadata = new NameValueCollection();
+            var nameValueCollection = new NameValueCollection();
 
-            foreach (var metadataName in taskItem.MetadataNames
-                    .Cast<string>()
-                    .ToList()
-                    .Except(GetWellDefinedItemMetadata()))
+            foreach (string key in taskItem.CloneCustomMetadata().Keys)
             {
-                itemMetadata.Add(metadataName, taskItem.GetMetadata(metadataName));
+                nameValueCollection.Add(key, taskItem.GetMetadata(key));
             }
 
-            return itemMetadata;
+            return nameValueCollection;
         }
     }
 }

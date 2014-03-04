@@ -67,6 +67,7 @@
     <Compile Include="PublishFolderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublishTestsBase.cs" />
+    <Compile Include="S3ClientTests.cs" />
     <Compile Include="S3TestsBase.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -42,6 +42,24 @@ After that you can publish the content of a source folder to S3 by using this st
       		DestinationFolder="$(S3_subfolder)" />
   	</Target>
 
+PublishFolderWithHeaders example:
+
+    <Target Name="S3_upload" DependsOnTargets="Publish">
+	  <ItemGroup>
+		<Directories Include="css;scripts;">
+			<Content-Type>text/css</Content-Type>
+			<Content-Encoding>gzip</Content-Encoding>
+		</Directories>
+	  </ItemGroup> 
+
+		<PublishFolderWithHeaders
+			Key= "(Key)"
+			Secret= "(Secret)"
+			SourceFolders = $(Directories)
+			Bucket="$(Bucket)"
+			DestinationFolder="$(DestinationFolder)" />
+  	</Target>
+
 ## License
 The source code is available under the [MIT license](http://opensource.org/licenses/mit-license.php).
 

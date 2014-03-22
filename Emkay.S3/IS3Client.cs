@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using Amazon.S3.Model;
 
 namespace Emkay.S3
@@ -50,6 +51,19 @@ namespace Emkay.S3
         /// <param name="publicRead">Flag which indicates if the file is publicly available or not.</param>
         /// <param name="timeoutMilliseconds">The timeout in milliseconds within the upload must have happend.</param>
         void PutFile(string bucketName, string key, string file, bool publicRead, int timeoutMilliseconds);
+
+        /// <summary>
+        /// Store the content from a local file into a bucket.
+        /// The key is the path under which the file will be stored.
+        /// Use this overload to add custom headers 
+        /// </summary>
+        /// <param name="bucketName">The name of the bucket.</param>
+        /// <param name="key">The key under which the file will be available afterwards.</param>
+        /// <param name="file">The path to the local file.</param>
+        /// <param name="headers">The custom headers to be added to the file</param>
+        /// <param name="publicRead">Flag which indicates if the file is publicly available or not.</param>
+        /// <param name="timeoutMilliseconds">The timeout in milliseconds within the upload must have happend.</param>
+        void PutFileWithHeaders(string bucketName, string key, string file, NameValueCollection headers, bool publicRead, int timeoutMilliseconds);
 
         /// <summary>
         /// Delete a bucket and its content.

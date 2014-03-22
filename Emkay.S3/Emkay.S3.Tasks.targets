@@ -5,6 +5,8 @@
   </PropertyGroup>
   <UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="PublishFolder" />
   <UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="PublishFiles" />
+  <UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="PublishFolderWithHeaders" />
+  <UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="PublishFilesWithHeaders" />
   <UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="DeleteBucket" />
   <UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="DeleteChildren" />
   <UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="EnumerateBuckets" />

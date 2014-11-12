@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
-using Amazon.S3.Model;
+using Amazon.S3;
 
 namespace Emkay.S3
 {
@@ -99,7 +99,6 @@ namespace Emkay.S3
 	    /// <param name="bucketName">The name of the bucket.</param>
 	    /// <param name="key">The key of the file to download.</param>
 	    /// <param name="file">The path for the file to be saved to.</param>
-	    /// <param name="timeoutMilliseconds">The timeout in milliseconds.</param>
-	    void DownloadFile(string bucketName, string key, string file, int timeoutMilliseconds);
+	    void DownloadFile(string bucketName, string key, string file);
     }
 }

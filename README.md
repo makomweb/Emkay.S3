@@ -1,8 +1,8 @@
 Emkay.S3
 ========
 
-This package contains a small wrapper for Amazon S3. It provides possibility to upload files, upload the content of a folder inclusively subfolders, enumerate buckets, enumerate the content of a specific 'subfolder', delete buckets and delete files from specific subfolders
-All those are also available via MSBuild tasks which are also part of this package.
+This package contains a small wrapper for Amazon S3. It provides possibility to upload files, upload the content of a folder (including subfolders!), enumerate buckets, enumerate the content of a specific 'subfolder', delete buckets and delete files from specific subfolders.
+All those are also available via MSBuild tasks which are also part of this package. Which is the main motivation of this project.
 
 ##Download
 

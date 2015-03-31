@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
-    <Binaries>.\Binaries\</Binaries>
     <SolutionProperties>
-      OutDir=..\$(Binaries);
       Platform=Any CPU;
       Configuration=$(Configuration)
     </SolutionProperties>
@@ -19,8 +17,7 @@
   
   <Target Name="clean">
 	  <Message Text="Cleaning output directories ..." />
-	  <RemoveDir Directories="$(Binaries)" />
-	  <MakeDir Directories = "$(Binaries)" Condition = "!Exists('$(Binaries)')" />
+    <MSBuild Projects="@(Solution)" Targets="Clean" />
   </Target>
   
   <Target Name="update_version">
@@ -46,9 +43,9 @@
 
   <Target Name="test">
     <Message Text="Running tests ..." />
-    <CreateItem Include="$(Binaries)*.Tests.dll">
-      <Output TaskParameter="Include" ItemName="TestAssembly"/>
-    </CreateItem>
+    <ItemGroup>
+      <TestAssembly Include="**/bin/*/*.Tests.dll" />
+    </ItemGroup>
     <Message Text="Running tests on @(TestAssembly) ..." />
     <NUnit ToolPath=".\Tools\NUnit" DisableShadowCopy="true" Assemblies="@(TestAssembly)" />
   </Target>

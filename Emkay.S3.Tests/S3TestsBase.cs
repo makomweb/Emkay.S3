@@ -9,11 +9,12 @@ namespace Emkay.S3.Tests
 
         protected const string Key = ""; // TODO edit your AWS S3 key here
         protected const string Secret = ""; // TODO edit your AWS S3 secret here
+        protected const string Region = "us-east-1"; // TODO edit your AWS S3 region here
         protected const int RequestTimoutMilliseconds = 300000;
 
         protected IS3Client Client
         {
-            get { return _client ?? (_client = ClientFactory.Create(Key, Secret)); }
+            get { return _client ?? (_client = ClientFactory.Create(Key, Secret, Region)); }
         }
 
         class S3ClientFactoryMock : IS3ClientFactory
@@ -27,10 +28,10 @@ namespace Emkay.S3.Tests
                 _secret = secret;
             }
 
-            public IS3Client Create(string key, string secret)
+            public IS3Client Create(string key, string secret, string region)
             {
                 if (!string.IsNullOrEmpty(_key) && !string.IsNullOrEmpty(_secret))
-                    return new S3Client(_key, _secret);
+                    return new S3Client(_key, _secret, region);
                 return new Mock<IS3Client>().Object;
             }
         }

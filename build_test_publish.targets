@@ -37,7 +37,7 @@
                 ReplacementText="&lt;version&gt;$(version)&lt;/version&gt;" />
   </Target>
   
-  <Target Name="build">
+  <Target Name="build" DependsOnTargets="clean;update_version">
     <Message Text="Building solution ..." />
     <MSBuild Projects="@(Solution)"/>
   </Target>
@@ -50,14 +50,17 @@
     <Message Text="Running tests on @(TestAssembly) ..." />
     <NUnit ToolPath=".\Tools\NUnit" DisableShadowCopy="true" Assemblies="@(TestAssembly)" />
   </Target>
-
-  <Target Name="publish">
+  
+  <Target Name="package" DependsOnTargets="build">
     <Message Text="Cleaning old nuget artefacts"/>
     <Exec Command="del *.nupkg"/>
     <Message Text="Building project" />
     <MSBuild Projects=".\Emkay.S3\Emkay.S3.csproj"/>
     <Message Text="Running nuget ..." />
     <Exec Command=".\Tools\NuGet\NuGet.exe pack .\Emkay.S3\Emkay.S3.csproj.nuspec -Prop Configuration=$(Configuration)"/>
+  </Target>
+
+  <Target Name="publish" DependsOnTargets="package">
     <Exec Command=".\Tools\NuGet\NuGet.exe push Emkay*.nupkg $(nuget_api_key)"/>
   </Target>
   

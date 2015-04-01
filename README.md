@@ -1,8 +1,7 @@
 Emkay.S3
 ========
 
-This package contains a small wrapper for Amazon S3. It provides possibility to upload files, upload the content of a folder (including subfolders!), enumerate buckets, enumerate the content of a specific 'subfolder', delete buckets and delete files from specific subfolders.
-All those are also available via MSBuild tasks which are also part of this package. Which is the main motivation of this project.
+This package contains MSBuild tasks for Amazon S3, which provides the possibility to upload files, enumerate buckets, enumerate the content of a specific 'subfolder', delete buckets and delete files from specific subfolders.
 
 ##Download
 
@@ -16,50 +15,60 @@ More information about NuGet package avaliable at [https://nuget.org/packages/Em
 
 ##Getting Started
 
+TODO: Bit on installing via nuget at build time 
+
 In order to use the tasks in your project, you need to import the Emkay.S3.Tasks.targets file. Maybe you need to adjust the paths to your needs.
 
-	<PropertyGroup>
-    	<EmkayS3ClassLibrary>$(MSBuildStartupDirectory)\Lib\Emkay.S3.dll</EmkayS3ClassLibrary>
-  	</PropertyGroup>
-	<UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="PublishFolder" />
-	<UsingTask AssemblyFile="$(EmkayS3ClassLibrary)" TaskName="PublishFiles" />
+    <Import Project="Emkay.S3.Tasks.targets"/>
 
-Emkay S3 folder publisher is an **MSBuild task** which can be used for publishing recursively the content of a folder to your S3 bucket.
-After that you can publish the content of a source folder to S3 by using this statement inside an MSBuild target. By default the files will be public available.
+Emkay S3 file publisher is an **MSBuild task** which can be used for publishing a file or set of files to S3. By default the files will be publically accessible. The following target will upload `file.txt` to `path/within_S3/file.txt`:
 
-    <Target Name="S3_upload" DependsOnTargets="Publish">
-    	<Message Text="Publishing to S3 ..." />
-    
-    	<Message Text="Source folder: $(source)"/>
-    	<Message Text="Bucket: $(S3_bucket)"/>
-    	<Message Text="Destination folder: $(S3_subfolder)"/>
-
-    	<PublishFolder
-      		Key="$(S3_key)"
-      		Secret="$(S3_secret)"
-      		SourceFolder="$(source)"
-      		Bucket="$(S3_bucket)"
-      		DestinationFolder="$(S3_subfolder)" />
+    <Target Name="S3_upload">
+      <Message Text="Publishing to S3 ..." />
+      
+      <Message Text="Source folder: $(source)"/>
+      <Message Text="Bucket: $(S3_bucket)"/>
+      <Message Text="Destination folder: $(S3_subfolder)"/>
+      
+      <PublishFiles
+        Key="$(aws_key)"
+        Secret="$(aws_secret)"
+        SourceFiles="path\to\file.txt"
+        Bucket="$(aws_s3_bucket)"
+        DestinationFolder="path/within_S3" />
   	</Target>
 
-PublishFolderWithHeaders example:
+### Uploading a folder
 
-    <Target Name="S3_upload" DependsOnTargets="Publish">
-	  <ItemGroup>
-		<Directories Include="css;scripts;">
-			<Content-Type>text/css</Content-Type>
-			<Content-Encoding>gzip</Content-Encoding>
-		</Directories>
-	  </ItemGroup> 
+You can also recursively publish an entire folder:
 
-		<PublishFolderWithHeaders
-			Key= "(Key)"
-			Secret= "(Secret)"
-			SourceFolders = $(Directories)
-			Bucket="$(Bucket)"
-			DestinationFolder="$(DestinationFolder)" />
-  	</Target>
+      <ItemGroup>
+        <UploadFiles Include="localpath\**\*.*" />
+      </ItemGroup>
+      <PublishFiles
+        Key="$(aws_key)"
+        Secret="$(aws_secret)"
+        SourceFiles="@(UploadFiles)"
+        Bucket="$(aws_s3_bucket)"
+        DestinationFolder="path/within_S3" />
 
+
+### Headers
+
+You can set custom headers by using ItemGroup metadata:
+
+      
+      <ItemGroup>
+        <UploadFiles Include="localpath\**\css\**\*.css">
+          <Content-Type>text/css</Content-Type>
+          <Content-Encoding>gzip</Content-Encoding>
+        </UploadFiles>
+        <UploadFiles Include="localpath\**\**\*.json" Exclude="@(UploadFiles)">
+          <Content-Type>application/json</Content-Type>
+        </UploadFiles>
+        <UploadFiles Include="localpath\**\*.*" Exclude="@(UploadFiles)" />
+      </ItemGroup>
+      
 ## License
 The source code is available under the [MIT license](http://opensource.org/licenses/mit-license.php).
 

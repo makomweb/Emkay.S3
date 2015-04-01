@@ -141,16 +141,7 @@ namespace Emkay.S3
         /// <param name="timeoutMilliseconds">The timeout in milliseconds within the upload must have happend.</param>
         public void PutFile(string bucketName, string key, string file, bool publicRead, int timeoutMilliseconds)
         {
-            var request = new PutObjectRequest
-                            {
-                                CannedACL = publicRead ? S3CannedACL.PublicRead : S3CannedACL.Private,
-                                FilePath = file,
-                                BucketName = bucketName,
-                                Key = key,
-                                Timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds)
-                            };
-
-            _amazonS3Client.PutObject(request);
+            PutFile(bucketName, key, file, null, publicRead, timeoutMilliseconds);
         }
 
         /// <summary>
@@ -164,7 +155,7 @@ namespace Emkay.S3
         /// <param name="headers">The custom headers to be added to the file</param>
         /// <param name="publicRead">Flag which indicates if the file is publicly available or not.</param>
         /// <param name="timeoutMilliseconds">The timeout in milliseconds within the upload must have happend.</param>
-        public void PutFileWithHeaders(string bucketName, string key, string file, NameValueCollection headers, bool publicRead, int timeoutMilliseconds)
+        public void PutFile(string bucketName, string key, string file, NameValueCollection headers, bool publicRead, int timeoutMilliseconds)
         {
             var request = new PutObjectRequest
             {
@@ -175,9 +166,12 @@ namespace Emkay.S3
                 Timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds)
             };
 
-            foreach (var headerKey in headers.AllKeys)
+            if (headers != null)
             {
-                request.Headers[headerKey] = headers[headerKey];
+                foreach (var headerKey in headers.AllKeys)
+                {
+                    request.Headers[headerKey] = headers[headerKey];
+                }
             }
 
             _amazonS3Client.PutObject(request);

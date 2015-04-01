@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
+using NUnit.Framework;
 
 namespace Emkay.S3.Tests
 {
@@ -14,7 +16,7 @@ namespace Emkay.S3.Tests
         {
             var publish = new PublishFiles(ClientFactory, RequestTimoutMilliseconds, true, LoggerMock)
                             {
-                                SourceFiles = new[] {TestFilePath},
+                                SourceFiles = new ITaskItem[] { new TaskItem(TestFilePath) },
                                 Bucket = Bucket,
                                 DestinationFolder = DestinationFolder
                             };

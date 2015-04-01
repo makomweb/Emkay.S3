@@ -64,7 +64,6 @@
     <Compile Include="EnumerateBucketsTests.cs" />
     <Compile Include="EnumerateChildrenTests.cs" />
     <Compile Include="PublishFilesTests.cs" />
-    <Compile Include="PublishFilesWithHeadersTests.cs" />
     <Compile Include="PublishFolderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublishTestsBase.cs" />

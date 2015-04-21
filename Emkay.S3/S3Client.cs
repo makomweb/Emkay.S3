@@ -17,14 +17,15 @@ namespace Emkay.S3
     {
         private AmazonS3Client _amazonS3Client;
         private readonly bool _hasOwnership;
-
+        
         /// <summary>
         /// Initialize an instance of this class.
         /// </summary>
         /// <param name="key">S3 key</param>
         /// <param name="secret">S3 secret</param>
-        public S3Client(string key, string secret) :
-            this(new AmazonS3Client(key, secret), true)
+        /// <param name="region">S3 region server name (eg, "us-east-1")</param>
+        public S3Client(string key, string secret, string region) :
+            this(new AmazonS3Client(key, secret, RegionEndpoint.GetBySystemName(region) ), true)
         { }
 
         /// <summary>

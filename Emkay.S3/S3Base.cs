@@ -12,6 +12,8 @@ namespace Emkay.S3
 
         public const int DefaultRequestTimeout = 300000; // 5 min default timeout
 
+        public const string DefaultRegion = "us-east-1";
+
         protected S3Base(IS3ClientFactory s3ClientFactory,
                          int timeoutMilliseconds = DefaultRequestTimeout,
                          ITaskLogger logger = null)
@@ -36,11 +38,13 @@ namespace Emkay.S3
         [Required]
         public string Bucket { get; set; }
 
+        public string Region { get; set; }
+        
         public int TimeoutMilliseconds { get; set; }
 
         public IS3Client Client
         {
-            get { return _client ?? (_client = _s3ClientFactory.Create(Key, Secret)); }
+            get { return _client ?? (_client = _s3ClientFactory.Create(Key, Secret, Region ?? DefaultRegion)); }
         }
 
         public void Dispose()

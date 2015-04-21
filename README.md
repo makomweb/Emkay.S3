@@ -26,6 +26,7 @@ In order to use the tasks in your project, you need to import the Emkay.S3.Tasks
 
 Emkay S3 folder publisher is an **MSBuild task** which can be used for publishing recursively the content of a folder to your S3 bucket.
 After that you can publish the content of a source folder to S3 by using this statement inside an MSBuild target. By default the files will be public available.
+Region is "us-east-1" by default, but any of the [AWS S3 region names](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region) can be used.
 
     <Target Name="S3_upload" DependsOnTargets="Publish">
     	<Message Text="Publishing to S3 ..." />
@@ -37,6 +38,7 @@ After that you can publish the content of a source folder to S3 by using this st
     	<PublishFolder
       		Key="$(S3_key)"
       		Secret="$(S3_secret)"
+      		Region="$(S3_region)"
       		SourceFolder="$(source)"
       		Bucket="$(S3_bucket)"
       		DestinationFolder="$(S3_subfolder)" />
@@ -53,9 +55,10 @@ PublishFolderWithHeaders example:
 	  </ItemGroup> 
 
 		<PublishFolderWithHeaders
-			Key= "(Key)"
-			Secret= "(Secret)"
-			SourceFolders = $(Directories)
+			Key="(Key)"
+			Secret="(Secret)"
+			Region="us-east-1"
+			SourceFolders="$(Directories)"
 			Bucket="$(Bucket)"
 			DestinationFolder="$(DestinationFolder)" />
   	</Target>

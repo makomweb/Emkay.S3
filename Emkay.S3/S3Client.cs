@@ -131,7 +131,19 @@ namespace Emkay.S3
             return result.ToArray();
         }
 
-        /// <summary>
+	    /// <summary>
+	    /// Store the content from a local file into a bucket.
+	    /// The key is the path under which the file will be stored.
+	    /// </summary>
+	    /// <param name="bucketName">The name of the bucket.</param>
+	    /// <param name="key">The key under which the file will be available afterwards.</param>
+	    /// <param name="file">The path to the local file.</param>
+	    /// <param name="publicRead">Flag which indicates if the file is publicly available or not.</param>
+	    public void PutFile(string bucketName, string key, string file, bool publicRead) {
+		    PutFile(bucketName, key, file, publicRead, 0);
+	    }
+
+	    /// <summary>
         /// Store the content from a local file into a bucket.
         /// The key is the path under which the file will be stored.
         /// </summary>
@@ -140,7 +152,8 @@ namespace Emkay.S3
         /// <param name="file">The path to the local file.</param>
         /// <param name="publicRead">Flag which indicates if the file is publicly available or not.</param>
         /// <param name="timeoutMilliseconds">The timeout in milliseconds within the upload must have happend.</param>
-        public void PutFile(string bucketName, string key, string file, bool publicRead, int timeoutMilliseconds)
+		[Obsolete("Use the overload without the timeoutMilliseconds instead")]
+		public void PutFile(string bucketName, string key, string file, bool publicRead, int timeoutMilliseconds)
         {
             var request = new PutObjectRequest
                             {
@@ -148,13 +161,26 @@ namespace Emkay.S3
                                 FilePath = file,
                                 BucketName = bucketName,
                                 Key = key,
-                                Timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds)
                             };
 
             _amazonS3Client.PutObject(request);
         }
 
-        /// <summary>
+	    /// <summary>
+	    /// Store the content from a local file into a bucket.
+	    /// The key is the path under which the file will be stored.
+	    /// Use this overload to add custom headers 
+	    /// </summary>
+	    /// <param name="bucketName">The name of the bucket.</param>
+	    /// <param name="key">The key under which the file will be available afterwards.</param>
+	    /// <param name="file">The path to the local file.</param>
+	    /// <param name="headers">The custom headers to be added to the file</param>
+	    /// <param name="publicRead">Flag which indicates if the file is publicly available or not.</param>
+	    public void PutFileWithHeaders(string bucketName, string key, string file, NameValueCollection headers, bool publicRead) {
+		    PutFileWithHeaders(bucketName, key, file, headers, publicRead, 0);
+	    }
+
+	    /// <summary>
         /// Store the content from a local file into a bucket.
         /// The key is the path under which the file will be stored.
         /// Use this overload to add custom headers 
@@ -165,6 +191,7 @@ namespace Emkay.S3
         /// <param name="headers">The custom headers to be added to the file</param>
         /// <param name="publicRead">Flag which indicates if the file is publicly available or not.</param>
         /// <param name="timeoutMilliseconds">The timeout in milliseconds within the upload must have happend.</param>
+		[Obsolete("Use the overload without the timeoutMilliseconds instead")]
         public void PutFileWithHeaders(string bucketName, string key, string file, NameValueCollection headers, bool publicRead, int timeoutMilliseconds)
         {
             var request = new PutObjectRequest
@@ -172,8 +199,7 @@ namespace Emkay.S3
                 CannedACL = publicRead ? S3CannedACL.PublicRead : S3CannedACL.Private,
                 FilePath = file,
                 BucketName = bucketName,
-                Key = key,
-                Timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds)
+                Key = key
             };
 
             foreach (var headerKey in headers.AllKeys)

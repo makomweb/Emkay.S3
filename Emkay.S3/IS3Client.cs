@@ -63,7 +63,7 @@ namespace Emkay.S3
         /// <param name="headers">The custom headers to be added to the file</param>
         /// <param name="publicRead">Flag which indicates if the file is publicly available or not.</param>
         /// <param name="timeoutMilliseconds">The timeout in milliseconds within the upload must have happend.</param>
-        void PutFileWithHeaders(string bucketName, string key, string file, NameValueCollection headers, bool publicRead, int timeoutMilliseconds);
+        void PutFile(string bucketName, string key, string file, NameValueCollection headers, bool publicRead, int timeoutMilliseconds);
 
         /// <summary>
         /// Delete a bucket and its content.

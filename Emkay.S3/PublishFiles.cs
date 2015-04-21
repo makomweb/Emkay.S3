@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Build.Framework;
 
 namespace Emkay.S3
@@ -20,7 +21,7 @@ namespace Emkay.S3
         { }
 
         [Required]
-        public string[] SourceFiles { get; set; }
+        public ITaskItem[] SourceFiles { get; set; }
 
         [Required]
         public string DestinationFolder { get; set; }
@@ -40,6 +41,7 @@ namespace Emkay.S3
             try
             {
                 Client.EnsureBucketExists(Bucket);
+
                 Publish(Client, SourceFiles, Bucket, DestinationFolder, PublicRead, TimeoutMilliseconds);
                 return true;
             }
@@ -52,20 +54,20 @@ namespace Emkay.S3
         }
 
         private void Publish(IS3Client client,
-                            IEnumerable<string> sourceFiles,
-                            string bucket,
-                            string destinationFolder,
-                            bool publicRead,
-                            int timeoutMilliseconds)
+            IEnumerable<ITaskItem> sourceFiles,
+            string bucket,
+            string destinationFolder,
+            bool publicRead,
+            int timeoutMilliseconds)
         {
-            foreach (var f in sourceFiles)
+            foreach (var fileItem in sourceFiles.Where(taskItem => taskItem != null
+                && !string.IsNullOrEmpty(taskItem.GetMetadata("Identity"))))
             {
-                if (string.IsNullOrEmpty(f))
-                    continue;
+                var info = new FileInfo(fileItem.GetMetadata("Identity"));
+                var headers = MsBuildHelpers.GetCustomItemMetadata(fileItem);
 
-                var info = new FileInfo(f);
                 Logger.LogMessage(MessageImportance.Normal, string.Format("Copying file {0}", info.FullName));
-                client.PutFile(bucket, CreateRelativePath(destinationFolder, info.Name), info.FullName, publicRead, timeoutMilliseconds);
+                client.PutFile(bucket, CreateRelativePath(destinationFolder, info.Name), info.FullName, headers, publicRead, timeoutMilliseconds);
             }
         }
     }

@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 using NUnit.Framework;
 
 namespace Emkay.S3.Tests
@@ -41,9 +44,19 @@ namespace Emkay.S3.Tests
             Assert.IsTrue(_publish.Execute());
         }
 
-        private static string[] EnumerateFiles(string folder)
+
+        private static ITaskItem[] EnumerateFiles(string folder)
         {
-            return new DirectoryInfo(folder).GetFiles().Select(i => i.FullName).ToArray();
+            var files = new List<ITaskItem>();
+
+            foreach (var file in new DirectoryInfo(folder).GetFiles().Select(i => i.FullName).ToList())
+            {
+                var fileItem = new TaskItem(file);
+                fileItem.SetMetadata("Test-name", "Test-Content");
+                files.Add(fileItem);
+            }
+
+            return files.ToArray();
         }
     }
 }
